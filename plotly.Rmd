@@ -1,0 +1,52 @@
+---
+title: "plotly"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+data("ny_noaa")
+tidy_data=ny_noaa%>%
+  select(date,tmax,tmin)%>%
+  drop_na()%>%
+   separate(date,into=c("year","month","day"),sep="-")%>%
+  filter(as.numeric(year)==2008,month %in% c("10","11","12"))%>%
+  mutate(tmax=as.numeric(tmax)/10,tmin=as.numeric(tmin)/10)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+tidy_data %>%
+  mutate(text_label = str_c("Month",month)) %>% 
+  plot_ly(
+    x = ~tmin, y = ~tmax, type = "scatter", mode = "markers",
+    color = ~month, text = ~text_label, alpha = 0.5)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+tidy_data %>% 
+  plot_ly(y = ~tmax, color = ~month, type = "box", colors = "viridis")
+```
+
+### Chart C
+
+```{r}
+tidy_data %>% 
+  plot_ly(x = ~month, y = ~tmin, color = ~month, type = "bar", colors = "viridis")
+```
+
