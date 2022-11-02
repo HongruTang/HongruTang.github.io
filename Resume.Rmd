@@ -1,0 +1,13 @@
+---
+title: "Resume"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# This is Hongru's perfect website
+
+
+This is made by Rmarkdown. HongruTang learned a lot about machine learning.
+
